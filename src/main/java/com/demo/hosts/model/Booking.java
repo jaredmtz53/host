@@ -16,7 +16,8 @@ public class Booking {
     private String bookingState;
     private String bookingCountry;
     private int bookingZip;
-
+    private String checkInDate;
+    private String checkOutDate;
     public Booking() {
     }
 
@@ -102,5 +103,20 @@ public class Booking {
 
     public void setBookingZip(int bookingZip) {
         this.bookingZip = bookingZip;
+    }
+    public String getCheckInDate() {
+        return checkInDate;
+    }
+
+    public void setCheckInDate(String checkInDate) {
+        this.checkInDate = checkInDate;
+    }
+
+    public String getCheckOutDate() {
+        return checkOutDate;
+    }
+
+    public void setCheckOutDate(String checkOutDate) {
+        this.checkOutDate = checkOutDate;
     }
 }
