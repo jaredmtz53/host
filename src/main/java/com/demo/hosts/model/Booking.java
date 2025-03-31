@@ -1,7 +1,10 @@
 package com.demo.hosts.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 
 @Entity
 public class Booking {
@@ -18,10 +21,18 @@ public class Booking {
     private int bookingZip;
     private String checkInDate;
     private String checkOutDate;
+
+    @ManyToOne
+    @JoinColumn(name = "home_owner_id")
+    @JsonIgnore
+    private HomeOwner homeOwner;
+
     public Booking() {
     }
 
-    public Booking(int confirmationCode, int numberOfGuests, String bookingDate, String bookingTime, String bookingAddress, String bookingCity, String bookingState, String bookingCountry, int bookingZip) {
+    public Booking(int confirmationCode, int numberOfGuests, String bookingDate, String bookingTime, String bookingAddress,
+                   String bookingCity, String bookingState, String bookingCountry, int bookingZip,
+                   String checkInDate, String checkOutDate, HomeOwner homeOwner) {
         this.confirmationCode = confirmationCode;
         this.numberOfGuests = numberOfGuests;
         this.bookingDate = bookingDate;
@@ -31,6 +42,9 @@ public class Booking {
         this.bookingState = bookingState;
         this.bookingCountry = bookingCountry;
         this.bookingZip = bookingZip;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.homeOwner = homeOwner;
     }
 
     public int getConfirmationCode() {
@@ -118,5 +132,13 @@ public class Booking {
 
     public void setCheckOutDate(String checkOutDate) {
         this.checkOutDate = checkOutDate;
+    }
+
+    public HomeOwner getHomeOwner() {
+        return homeOwner;
+    }
+
+    public void setHomeOwner(HomeOwner homeOwner) {
+        this.homeOwner = homeOwner;
     }
 }
