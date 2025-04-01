@@ -24,13 +24,24 @@ public class MessagesController {
         Messages savedMessages = messagesRepo.save(messages);
         return ResponseEntity.ok(savedMessages);
     }
-
-    //Get all messages
-    @GetMapping
-    public ResponseEntity<List<Messages>> getAllMessages() {
-        List<Messages> messages = messagesRepo.findAll();
-        return ResponseEntity.ok(messages);
+    // Get a message by ID
+    @GetMapping("/{messageId}")
+    public ResponseEntity<Messages> getMessageById(@PathVariable int messageId) {
+        return messagesRepo.findById(messageId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+
+
+@GetMapping("/messages/all")
+public ResponseEntity<List<Messages>> getAllMessages() {
+    List<Messages> messages = messagesRepo.findAllMessages();  // Call custom query method
+    if (messages.isEmpty()) {
+        return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(messages);
+}
 
     //Delete a message
     @DeleteMapping("/{messageId}")
@@ -40,5 +51,24 @@ public class MessagesController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    // Get messages by sender
+    @GetMapping("/sender/{sender}")
+    public ResponseEntity<List<Messages>> getMessagesBySender(@PathVariable String sender) {
+        List<Messages> messages = messagesRepo.findBySender(sender);
+        if (messages.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(messages);
+    }
+
+    @GetMapping("/receiver/{receiver}")
+    public ResponseEntity<List<Messages>> getMessagesByReceiver(@PathVariable String receiver) {
+        List<Messages> messages = messagesRepo.findByReceiver(receiver);
+        if (messages.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(messages);
     }
 }

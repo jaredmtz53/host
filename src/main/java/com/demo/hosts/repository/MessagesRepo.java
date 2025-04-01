@@ -9,6 +9,10 @@ import java.util.List;
 public interface MessagesRepo extends JpaRepository<Messages,Integer>{
     // List<Messages> getLast10Messages();
     // List<Messages> getMessagesByTime(Instant intialTime, Instant endTime);
+    List<Messages> findBySender(String sender);
+    List<Messages> findByReceiver(String receiver);
+    @Query("SELECT m FROM Messages m")
+    List<Messages> findAllMessages(); // Custom findAll method
 
 
 }
