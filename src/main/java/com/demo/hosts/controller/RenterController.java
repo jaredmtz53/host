@@ -1,8 +1,11 @@
 package com.demo.hosts.controller;
+import com.demo.hosts.model.Booking;
 import com.demo.hosts.model.Renter;
 import com.demo.hosts.repository.RenterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/renters")
@@ -11,6 +14,10 @@ public class RenterController {
         @Autowired
         private RenterRepository renterRepository;
 
+        @GetMapping
+        public List<Renter> getAllRenters() {
+        return renterRepository.findAll();
+        }
 
         // Get renter by ID
         @GetMapping("/{renterID}")
