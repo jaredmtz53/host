@@ -7,5 +7,6 @@ import com.demo.hosts.model.*;
 import com.demo.hosts.repository.*;
 @Repository
 public interface MessageReplyRepo extends JpaRepository<MessageReply, Integer> {
-
+    List<MessageReply> findByReceiver(String receiver);
+    List<MessageReply> findBySender(String sender);
 }
