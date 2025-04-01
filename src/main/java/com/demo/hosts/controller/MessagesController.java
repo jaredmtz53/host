@@ -1,4 +1,6 @@
 package com.demo.hosts.controller;
+import org.springframework.http.HttpStatus;
+
 import com.demo.hosts.model.*;
 import com.demo.hosts.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +32,16 @@ public class MessagesController {
 
     //Get all messages
     @GetMapping
-    public ResponseEntity<List<Messages>> getAllMessages() {
-        List<Messages> messages = messagesRepo.findAll();
-        return ResponseEntity.ok(messages);
+    public ResponseEntity<?> getAllMessages() {
+        try {
+            List<Messages> messages = messagesRepo.findAll();
+            if (messages.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No messages available.");
+            }
+            return ResponseEntity.ok(messages);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving messages.");
+        }
     }
 
     //Delete a message
